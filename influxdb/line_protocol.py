@@ -74,7 +74,7 @@ def _get_unicode(data, force=False):
     elif data is None:
         return ''
     elif force:
-        return str(data)
+        return unicode(data)
     else:
         return data
 

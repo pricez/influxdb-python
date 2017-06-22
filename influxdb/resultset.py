@@ -106,8 +106,9 @@ class ResultSet(object):
                 if tags is None or self._tag_matches(serie_tags, tags):
                     for point in serie.get('values', []):
                         columns = serie['columns']
-                        columns.append('tags')
-                        point.append(serie_tags)
+                        if 'tags' not in columns:
+                            columns = columns + ['tags']
+                            point.append(serie_tags)
                         yield self.point_from_cols_vals(
                             columns,
                             point
@@ -183,8 +184,5 @@ class ResultSet(object):
         """
         point = {}
         for col_index, col_name in enumerate(cols):
-            try:
-                point[col_name] = vals[col_index]
-            except IndexError:
-                import ipdb;ipdb.set_trace();
+            point[col_name] = vals[col_index]
         return point
